@@ -1,10 +1,15 @@
 package com.library.backend.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "account")
+@Getter
+@Setter
 public class Account {
 
     @Id
@@ -26,51 +31,6 @@ public class Account {
     @OneToOne
     private AccountState state;
 
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public Date getOpened() {
-        return opened;
-    }
-
-    public void setOpened(Date opened) {
-        this.opened = opened;
-    }
-
-    public AccountState getState() {
-        return state;
-    }
-
-    public void setState(AccountState state) {
-        this.state = state;
-    }
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Library library;
 }

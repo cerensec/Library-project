@@ -3,11 +3,13 @@ package com.library.backend.controller;
 import com.library.backend.model.BookItem;
 import com.library.backend.service.implementation.AuthorServiceImpl;
 import com.library.backend.service.implementation.CatalogServiceImpl;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/catalog")
@@ -37,7 +39,7 @@ public class CatalogController {
     //Manage
     @PostMapping("saveBook")
     public ResponseEntity<BookItem> saveBook(@RequestBody BookItem bookItem){
-        return new ResponseEntity<>(bookItem, HttpStatus.CREATED);
+        return new ResponseEntity<>(catalogServiceImpl.createBook(bookItem), HttpStatus.CREATED);
     }
 
     @PutMapping("update/{id}")

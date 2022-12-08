@@ -102,3 +102,12 @@ CREATE TABLE IF NOT EXISTS librarian(
     foreign key(name_id) references full_name(id),
     foreign key(address_id) references address(id)
 );
+
+
+CREATE TABLE IF NOT EXISTS catalog(
+    id int NOT NULL primary key AUTO_INCREMENT,
+    book_item_id varchar(10) NOT NULL,
+    library_id int NOT NULL,
+    foreign key(book_item_id) references book_item(isbn),
+    foreign key(library_id) references library(id)
+);

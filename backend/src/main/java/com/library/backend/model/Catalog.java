@@ -8,27 +8,23 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "library")
+@Table(name = "catalog")
 @Getter
 @Setter
-public class Library {
+public class Catalog {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "adress")
-    private String address;
-
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "catalog",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "book_item_id")
+    )
     private List<BookItem> books;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Catalog catalog;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Account> accounts;
+    private Library library;
 }

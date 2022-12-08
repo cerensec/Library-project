@@ -15,4 +15,6 @@ public class Patron {
 
     @OneToOne
     private Address address;
+
+    private Account account;
 }

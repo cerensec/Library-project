@@ -60,7 +60,7 @@ public class CatalogServiceImpl implements SearchService, ManageService {
         book.setBorrowed(bookItem.getBorrowed());
         book.setLoanPeriod(bookItem.getLoanPeriod());
         book.setDueDate(bookItem.getDueDate());
-        book.setOverdue(bookItem.getOverdue());
+        book.setIsOverdue(bookItem.getIsOverdue());
 
         bookItemRepository.save(book);
         return book;

@@ -1,9 +1,14 @@
 package com.library.backend.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "langue")
+@Getter
+@Setter
 public class Langue {
 
     @Id
@@ -12,20 +17,4 @@ public class Langue {
 
     @Column(name = "name")
     private String name;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
