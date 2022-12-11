@@ -1,15 +1,6 @@
-import { defineStore } from 'pinia';
-import { Book, BookForm, Format, Language } from '../interfaces';
-import {
-    getBooks,
-    deleteBook,
-    editBook,
-    createBook,
-    getLangs,
-    getBook,
-    getFormats,
-} from '../services';
-import { useData } from './dataStore';
+import { defineStore } from "pinia";
+import { Book, BookForm } from "../interfaces";
+import { getBooks, deleteBook, editBook, createBook, getLangs, getBook } from "../services";
 
 interface BookState {
     books: Book[];
@@ -19,7 +10,7 @@ interface BookState {
 }
 
 export const useBooks = defineStore('books', {
-    state: (): BookState => ({
+    state: ():BookState  => ({
         books: [],
         search: '',
         isLoading: true,
@@ -27,10 +18,8 @@ export const useBooks = defineStore('books', {
     }),
     getters: {
         filteredBooks(state): Book[] {
-            return state.books.filter((book) =>
-                book.title.toLowerCase().includes(state.search.toLowerCase())
-            );
-        },
+            return state.books.filter(book => book.title.toLowerCase().includes(state.search.toLowerCase()));
+        }
     },
     actions: {
         async fetchBooks() {
@@ -38,32 +27,23 @@ export const useBooks = defineStore('books', {
             this.books = await getBooks();
             this.isLoading = false;
             this.needRefresh = false;
-
-            const dataStore = useData();
-            dataStore.fetchLangs();
-            dataStore.fetchAuthors();
-            dataStore.fetchFormat();
         },
 
-        async deleteBook(bookId: string) {
-            const bookIndex = this.books.findIndex(
-                (book) => book.isbn === bookId
-            );
-            if (bookIndex !== -1) {
-                await deleteBook(bookId);
-                this.books.splice(bookIndex, 1);
+        async deleteBook(bookId: number) {
+            const bookIndex = this.books.findIndex(book => book.id === bookId);
+            if(bookIndex !== -1) {
+               await deleteBook(bookId);
+               this.books.splice(bookIndex, 1);
             }
             this.needRefresh = true;
         },
 
-        async editBook(bookId: string, bookForm: BookForm) {
+        async editBook(bookId: number, bookForm: BookForm) {
             const editedBook = await editBook(bookId, bookForm);
-            if (editedBook) {
+            if(editedBook) {
                 this.needRefresh = true;
-                const bookIndex = this.books.findIndex(
-                    (book) => book.isbn === bookId
-                );
-                if (bookIndex !== -1) {
+                const bookIndex = this.books.findIndex(book => book.id === bookId);
+                if(bookIndex !== -1) {
                     this.books[bookIndex] = editedBook;
                 }
             }
@@ -71,16 +51,14 @@ export const useBooks = defineStore('books', {
 
         async addBook(book: Book) {
             const newBook = await createBook(book);
-            if (newBook) {
-                this.books.push(newBook);
+            if(newBook) {
+                // this.books.push(newBook);
                 this.needRefresh = true;
             }
         },
 
         getBook(bookId: string): Book {
-            return this.books[
-                this.books.findIndex((book) => book.isbn === bookId)
-            ];
-        },
-    },
-});
+            return this.books[this.books.findIndex(book => book.isbn === bookId)];
+        }
+    }
+})
