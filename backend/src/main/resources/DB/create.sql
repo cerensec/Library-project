@@ -119,3 +119,19 @@ CREATE TABLE IF NOT EXISTS catalog(
     foreign key(book_item_id) references book_item(isbn),
     foreign key(library_id) references library(id)
 );
+
+CREATE TABLE IF NOT EXISTS account_borrowed(
+    id int NOT NULL primary key AUTO_INCREMENT,
+    account_number int NOT NULL,
+    borrowed_isbn varchar(10) NOT NULL,
+    foreign key(account_number) references account(number),
+    foreign key(borrowed_isbn) references book_item(isbn)
+);
+
+CREATE TABLE IF NOT EXISTS account_reserved(
+    id int NOT NULL primary key AUTO_INCREMENT,
+    account_number int NOT NULL,
+    reserved_isbn varchar(10) NOT NULL,
+    foreign key(account_number) references account(number),
+    foreign key(reserved_isbn) references book_item(isbn)
+)

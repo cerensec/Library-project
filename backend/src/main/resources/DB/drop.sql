@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS librarian;
 DROP TABLE IF EXISTS patron;
 DROP TABLE IF EXISTS full_name;
 DROP TABLE IF EXISTS author_books;
+DROP TABLE IF EXIStS account_borrowed;
+DROP TABLE IF EXISTS account_reserved;
 DROP TABLE IF EXISTS address;
 DROP TABLE IF EXISTS history;
 DROP TABLE IF EXISTS catalog;

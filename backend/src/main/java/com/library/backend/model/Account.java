@@ -32,7 +32,6 @@ public class Account {
     @OneToOne
     private AccountState state;
 
-
     @OneToMany(cascade = CascadeType.ALL)
     private List<BookItem> borrowed;
 
