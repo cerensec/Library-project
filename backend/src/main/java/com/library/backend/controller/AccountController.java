@@ -15,7 +15,7 @@ public class AccountController {
     }
 
     @PostMapping("login")
-    public boolean login(@RequestBody Account account){
+    public Account login(@RequestBody Account account){
         return accountService.login(account.getUsername(),account.getPassword());
     }
 }
