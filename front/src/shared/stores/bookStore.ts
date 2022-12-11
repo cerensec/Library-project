@@ -16,6 +16,7 @@ interface BookState {
     search: string;
     isLoading: boolean;
     needRefresh: boolean;
+    langs: string[];
 }
 
 export const useBooks = defineStore('books', {
@@ -24,6 +25,7 @@ export const useBooks = defineStore('books', {
         search: '',
         isLoading: true,
         needRefresh: false,
+        langs: []
     }),
     getters: {
         filteredBooks(state): Book[] {
@@ -36,6 +38,7 @@ export const useBooks = defineStore('books', {
         async fetchBooks() {
             this.isLoading = true;
             this.books = await getBooks();
+            this.langs = await getLangs();
             this.isLoading = false;
             this.needRefresh = false;
 
