@@ -1,12 +1,13 @@
 import { defineStore } from "pinia";
 import { Book, BookForm } from "../interfaces";
-import { getBooks, deleteBook, editBook, createBook } from "../services";
+import { getBooks, deleteBook, editBook, createBook, getLangs, getBook } from "../services";
 
 interface BookState {
     books: Book[];
     search: string;
     isLoading: boolean;
     needRefresh: boolean;
+    langs: string[];
 }
 
 export const useBooks = defineStore('books', {
@@ -15,6 +16,7 @@ export const useBooks = defineStore('books', {
         search: '',
         isLoading: true,
         needRefresh: false,
+        langs: []
     }),
     getters: {
         filteredBooks(state): Book[] {
@@ -25,6 +27,7 @@ export const useBooks = defineStore('books', {
         async fetchBooks() {
             this.isLoading = true;
             this.books = await getBooks();
+            this.langs = await getLangs();
             this.isLoading = false;
             this.needRefresh = false;
         },
@@ -57,8 +60,8 @@ export const useBooks = defineStore('books', {
             }
         },
 
-        getBook(bookId: number): Book | null {
-            return this.books[bookId];
+        getBook(bookId: string): Book {
+            return this.books[this.books.findIndex(book => book.isbn === bookId)];
         }
     }
 })
