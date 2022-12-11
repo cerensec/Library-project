@@ -11,8 +11,6 @@ let book: Book | null = null;
 let bookId: string | null = null;
 let loaded = false;
 
-
-
 const bookStore = useBooks();
 const dataStore = useData();
 
