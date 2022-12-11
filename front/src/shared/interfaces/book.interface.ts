@@ -1,3 +1,5 @@
+import { Format, Language } from './data.interface';
+
 export interface Book {
     isbn: string;
     name: string; //! not in the form
@@ -8,9 +10,9 @@ export interface Book {
     barcode: string; //! not in the form
     tag: string; //! not in the form
     title: string;
-    langue: string;
+    langue: Language;
     numberOfPages: number;
-    format: string;
+    format: Format;
     borrowed: string; //! not in the form
     loanPeriod: number; //! not in the form
     dueDate: string; //! not in the form
