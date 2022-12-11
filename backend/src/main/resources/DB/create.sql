@@ -35,8 +35,8 @@ CREATE TABLE IF NOT EXISTS account(
     password varchar(255),
     role varchar(100),
     opened Date,
-    state int,
-    foreign key(state) references account_state(id)
+    state_id int,
+    foreign key(state_id) references account_state(id)
 );
 
 CREATE TABLE IF NOT EXISTS book_item(
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS book_item(
     barcode varchar(8),
     tag varchar(10),
     title varchar(255),
-    author_id varchar(150) NOT NULL,
+    author_name varchar(150) NOT NULL,
     is_reference_only BOOLEAN,
     langue_id int NOT NULL,
     number_of_pages int,
@@ -61,7 +61,15 @@ CREATE TABLE IF NOT EXISTS book_item(
     discriminator varchar(20) NOT NULL,
     foreign key(langue_id) references langue(id),
     foreign key(format_id) references format(id),
-    foreign key(author_id) references author(name)
+    foreign key(author_name) references author(name)
+);
+
+CREATE TABLE IF NOT EXISTS author_books(
+    id int NOT NULL primary key AUTO_INCREMENT,
+    author_name varchar(150) NOT NULL,
+    books_isbn varchar(10) NOT NULL,
+    foreign key(author_name) references author(name),
+    foreign key(books_isbn) references book_item(isbn)
 );
 
 CREATE TABLE IF NOT EXISTS history(

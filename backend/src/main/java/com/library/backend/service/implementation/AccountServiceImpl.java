@@ -15,14 +15,14 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Boolean login(String username, String password) {
+    public Account login(String username, String password) {
         Account a = accountRepository.getAccountByUsername(username);
         if(a != null){
-            if(password == a.getPassword()){
-                return true;
+            if(password.equals(a.getPassword())){
+                return a;
             }
         }
-        return false;
+        return null;
     }
 
 

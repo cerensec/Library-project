@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "account")
@@ -31,6 +32,11 @@ public class Account {
     @OneToOne
     private AccountState state;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Library library;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<BookItem> borrowed;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<BookItem> reserved;
+
 }

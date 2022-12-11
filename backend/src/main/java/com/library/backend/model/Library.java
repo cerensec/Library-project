@@ -23,6 +23,9 @@ public class Library {
     @Column(name = "adress")
     private String address;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private AccountState state;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<BookItem> books;
 

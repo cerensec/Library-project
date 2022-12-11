@@ -1,5 +1,6 @@
 package com.library.backend.controller;
 
+import com.library.backend.model.Account;
 import com.library.backend.service.AccountService;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,8 +14,8 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @PostMapping()
-    public boolean login(@RequestBody String username, @RequestBody String password){
-        return accountService.login(username,password);
+    @PostMapping("login")
+    public boolean login(@RequestBody Account account){
+        return accountService.login(account.getUsername(),account.getPassword());
     }
 }

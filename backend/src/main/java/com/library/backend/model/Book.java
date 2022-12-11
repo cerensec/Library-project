@@ -23,9 +23,9 @@ public abstract class Book {
 
     @Column(name = "name")
     private String name;
-    @JsonBackReference
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "author_id")
+    @JoinColumn(name = "author_name")
     private Author author;
 
     @Column(name = "subject")

@@ -25,7 +25,7 @@ public class Author {
     @Column(name = "birth_date")
     private Date birthDate;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
-    private List<Book> books = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "isbn")
+    private List<BookItem> books = new ArrayList<>();
 }
