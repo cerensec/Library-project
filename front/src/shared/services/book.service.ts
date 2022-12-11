@@ -1,4 +1,4 @@
-import type { Book, BookForm } from '../interfaces';
+import type { Book, BookForm, Format, Language } from '../interfaces';
 
 const API_URL = '/api/catalog';
 
@@ -12,11 +12,11 @@ const API_URL = '/api/catalog';
 
 export async function getBooks(): Promise<Book[]> {
     // return books;
-    return await(await fetch(`${API_URL}/getAll`)).json();
+    return await (await fetch(`${API_URL}/getAll`)).json();
 }
 
 export async function getBook(bookId: string): Promise<Book> {
-    const book = await(await fetch(`${API_URL}/getById/${bookId}`)).json();
+    const book = await (await fetch(`${API_URL}/getById/${bookId}`)).json();
     return book;
 
     // const res = books.find(book => book.id === bookId);
@@ -33,8 +33,8 @@ export async function createBook(book: Book) {
             method: 'POST',
             body: JSON.stringify(book),
             headers: {
-                'Content-type': 'application/json'
-            }
+                'Content-type': 'application/json',
+            },
         });
         return response;
     } catch (error) {
@@ -42,14 +42,16 @@ export async function createBook(book: Book) {
     }
 }
 
-export async function editBook(bookId: number, book: BookForm): Promise<Book> {
-    const updatedBook = await(await fetch(`${API_URL}/updateproduct/${bookId}`, {
-        method: 'PATCH',
-        body: JSON.stringify(book),
-        headers: {
-            'Content-type': 'application/json'
-        }
-    })).json();
+export async function editBook(bookId: string, book: BookForm): Promise<Book> {
+    const updatedBook = await (
+        await fetch(`${API_URL}/updateproduct/${bookId}`, {
+            method: 'PATCH',
+            body: JSON.stringify(book),
+            headers: {
+                'Content-type': 'application/json',
+            },
+        })
+    ).json();
     return updatedBook;
     // const bookIndex = books.findIndex(book => book.id === bookId);
     // if(bookIndex !== -1) {
@@ -60,10 +62,10 @@ export async function editBook(bookId: number, book: BookForm): Promise<Book> {
     // }
 }
 
-export async function deleteBook(bookId: number): Promise<number> {
+export async function deleteBook(bookId: string): Promise<string> {
     await fetch(`${API_URL}/deleteproduct/${bookId}`, {
-        method: 'DELETE'
-    })
+        method: 'DELETE',
+    });
     return bookId;
     // const index = books.findIndex(book => book.id === bookId);
     // if (index !== -1) {
@@ -74,6 +76,10 @@ export async function deleteBook(bookId: number): Promise<number> {
     // }
 }
 
-export async function getLangs(): Promise<string[]> {
-    return await(await fetch(`api/language/getAll`)).json();
+export async function getLangs(): Promise<Language[]> {
+    return await (await fetch(`api/language/getAll`)).json();
+}
+
+export async function getFormats(): Promise<Format[]> {
+    return await (await fetch('api/format/getAll')).json();
 }
