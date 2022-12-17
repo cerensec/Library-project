@@ -3,7 +3,7 @@ import { computed, ComputedRef, onMounted, reactive, ref } from 'vue';
 import { Book, BookForm } from '../shared/interfaces';
 import { useRoute } from 'vue-router';
 import { getBook, getBooks } from '../shared/services';
-import { useBooks } from '../shared/stores/bookStore';
+import { useBooks, useData } from '../shared/stores/';
 import { router } from '../router';
 
 const route = useRoute();
@@ -12,62 +12,65 @@ let bookId: string | null = null;
 let loaded = false;
 
 const bookStore = useBooks();
+const dataStore = useData();
 
 if (route.params.bookId) {
     bookId = route.params.bookId as string;
     book = bookStore.getBook(bookId);
+    console.log(book);
     loaded = true;
 } else {
     loaded = true;
 }
 
-let date = new Date();
-const defaultDate =
-    date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDay();
-
-const title = ref(book ? book.name : '');
+const title = ref(book ? book.title : '');
+const author = ref(book ? book.author?.name : '');
 const subject = ref(book ? book.subject : '');
 const overview = ref(book ? book.overview : '');
 const publisher = ref(book ? book.publisher : '');
 const publicationDate = ref(book ? book.publicationDate : '');
-const langue = ref(book ? book.langue.name : '');
-const numberOfPages = ref(book ? book.numberOfPages : '');
-const format = ref(book ? book.format : '');
-const referenceOnly = ref(book ? book.referenceOnly : false);
+const langue = ref(book ? book.langue?.name : '');
+const numberOfPages = ref(book ? book.numberOfPages : 0);
+const format = ref(book ? book.format?.name : '');
+const referenceOnly = ref(book ? book.isReferenceOnly : false);
 
 onMounted(() => {
     const l = langue.value === '' ? 'default' : book?.langue.name;
     const f = format.value === '' ? 'default' : book?.format.name;
+    const a = author.value === '' ? 'default' : book?.author.name;
 
     //@ts-ignore
     document.querySelector('#language').value = l;
     //@ts-ignore
     document.querySelector('#format').value = f;
+    //@ts-ignore
+    document.querySelector('#author').value = a;
 });
 
 const submitForm = async () => {
-    const newBook: BookForm = {
-        name: '',
+    const newBook: Book = {
+        isbn: book ? book.isbn : 'libro' + (bookStore.books.length + 1),
+        name: book ? book.name : 'name',
         subject: subject.value,
         overview: overview.value,
         publisher: publisher.value,
         publicationDate: publicationDate.value,
-        barcode: '',
-        tag: '',
+        barcode: book ? book.barcode : '123456789',
+        tag: book ? book.tag : 'sc',
         title: title.value,
-        langue: bookStore.getLang(langue.value),
-        numberOfPages: parseInt(numberOfPages.value as string),
-        format: bookStore.getFormat(format.value),
-        borrowed: '',
-        loanPeriod: 0,
-        dueDate: '',
-        isOverdue: false,
-        referenceOnly: referenceOnly.value,
+        author: dataStore.getAuthor(author.value),
+        langue: dataStore.getLang(langue.value),
+        numberOfPages: numberOfPages.value,
+        format: dataStore.getFormat(format.value),
+        borrowed: book ? book.borrowed : '',
+        loanPeriod: book ? book.loanPeriod : 0,
+        dueDate: book ? book.dueDate : '',
+        isOverdue: book ? book.isOverdue : false,
+        isReferenceOnly: referenceOnly.value,
     };
-    // const newBook: Book = {id: bookStore.books.length +1, title: title.value, author: author.value, language: language.value, numberOfPages: parseInt(numberOfPages.value as string), format: format.value, resume: 'test' }
-    console.log('newBook', newBook);
-    // bookStore.addBook(newBook);
-    router.push('/manage');
+    book ? bookStore.editBook(book.isbn, newBook) : bookStore.addBook(newBook);
+    book ? alert('Book edited') : alert('Book added');
+    // router.push('/manage');
 };
 </script>
 
@@ -83,7 +86,7 @@ const submitForm = async () => {
         <div v-else class="mt-5">
             <h1 v-if="bookId" class="text-2xl mb-5">Edit an existing book</h1>
             <h1 v-else class="text-2xl mb-5">Add a new book</h1>
-            <form @submit.prevent="submitForm" class="flex flex-col">
+            <form @submit="submitForm" class="flex flex-col">
                 <div class="flex flex-col">
                     <input
                         required
@@ -102,12 +105,28 @@ const submitForm = async () => {
                         class="rounded-lg outline outline-2 outline-gray-200 mb-5 focus:outline-blue-600"
                     />
                 </div>
-                <!-- <div class="flex flex-col">
-                    <input required v-model="author"  class="rounded-lg outline outline-2 outline-gray-200 mb-5 focus:outline-blue-600" type="text" placeholder="Auteur">
-                </div> -->
+                <div class="flex flex-col">
+                    <select
+                        required
+                        id="author"
+                        v-model="author"
+                        class="rounded-lg outline outline-2 outline-gray-200 bg-white mb-5"
+                    >
+                        <option value="default" selected>
+                            Please select an author
+                        </option>
+                        <option
+                            v-for="author of dataStore.authors"
+                            :key="author.name"
+                            :value="author.name"
+                        >
+                            {{ author.name }}
+                        </option>
+                    </select>
+                </div>
                 <div class="flex flex-col">
                     <textarea
-                        placeholder="Résumé"
+                        placeholder="Summary"
                         type="textarea"
                         v-model="overview"
                         class="rounded-lg outline outline-2 outline-gray-200 mb-5 focus:outline-blue-600"
@@ -133,7 +152,7 @@ const submitForm = async () => {
                             Please select a language
                         </option>
                         <option
-                            v-for="lang of bookStore.langs"
+                            v-for="lang of dataStore.langs"
                             :key="lang.id"
                             :value="lang.name"
                         >
@@ -161,7 +180,7 @@ const submitForm = async () => {
                             Please select a format
                         </option>
                         <option
-                            v-for="format of bookStore.formats"
+                            v-for="format of dataStore.formats"
                             :key="format.id"
                             :value="format.name"
                         >

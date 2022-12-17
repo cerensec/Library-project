@@ -1,7 +1,15 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { router } from '../router';
+import { useUser } from '../shared/stores/userStore';
+
+const userStore = useUser();
+
+const username = ref('');
+const password = ref('');
 
 function login() {
+    userStore.login(username.value, password.value);
     router.push('/search');
 }
 </script>
@@ -14,12 +22,14 @@ function login() {
         <input
             class="rounded-lg outline outline-2 outline-gray-200 mb-5 focus:outline-blue-600"
             type="text"
-            placeholder="Nom d'utilisateur"
+            v-model="username"
+            placeholder="Username"
         />
         <input
             class="rounded-lg outline outline-2 outline-gray-200 mb-5 focus:outline-blue-600"
             type="password"
-            placeholder="Mot de passe"
+            v-model="password"
+            placeholder="Password"
         />
         <button
             @click="login"

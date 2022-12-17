@@ -1,1 +1,0 @@
-# Front of the library project 
