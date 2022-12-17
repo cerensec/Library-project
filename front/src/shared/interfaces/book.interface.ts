@@ -1,23 +1,25 @@
+import { Author } from './author.interface';
 import { Format, Language } from './data.interface';
 
 export interface Book {
     isbn: string;
-    name: string; //! not in the form
+    name: string;
     subject: string;
     overview: string;
     publisher: string;
     publicationDate: string;
-    barcode: string; //! not in the form
-    tag: string; //! not in the form
+    barcode: string;
+    tag: string;
     title: string;
+    author: Author;
     langue: Language;
     numberOfPages: number;
     format: Format;
-    borrowed: string; //! not in the form
-    loanPeriod: number; //! not in the form
-    dueDate: string; //! not in the form
-    isOverdue: boolean; //! not in the form
-    referenceOnly: boolean;
+    borrowed: string;
+    loanPeriod: number;
+    dueDate: string;
+    isOverdue: boolean;
+    isReferenceOnly: boolean;
 }
 
 export interface BookForm extends Partial<Book> {}
