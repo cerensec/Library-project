@@ -9,6 +9,7 @@ import {
     getBook,
     getFormats,
 } from '../services';
+import { useData } from './dataStore';
 
 interface BookState {
     books: Book[];
@@ -37,6 +38,11 @@ export const useBooks = defineStore('books', {
             this.books = await getBooks();
             this.isLoading = false;
             this.needRefresh = false;
+
+            const dataStore = useData();
+            dataStore.fetchLangs();
+            dataStore.fetchAuthors();
+            dataStore.fetchFormat();
         },
 
         async deleteBook(bookId: string) {
@@ -66,7 +72,7 @@ export const useBooks = defineStore('books', {
         async addBook(book: Book) {
             const newBook = await createBook(book);
             if (newBook) {
-                // this.books.push(newBook);
+                this.books.push(newBook);
                 this.needRefresh = true;
             }
         },
@@ -74,16 +80,6 @@ export const useBooks = defineStore('books', {
         getBook(bookId: string): Book {
             return this.books[
                 this.books.findIndex((book) => book.isbn === bookId)
-            ];
-        },
-
-        getLang(lang: string): Language {
-            return this.langs[this.langs.findIndex((l) => l.name === lang)];
-        },
-
-        getFormat(format: string): Format {
-            return this.formats[
-                this.formats.findIndex((f) => f.name === format)
             ];
         },
     },

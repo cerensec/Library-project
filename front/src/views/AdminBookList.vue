@@ -42,9 +42,8 @@ if (bookStore.needRefresh) {
                     class="border-b-2 border-gray-100"
                 >
                     <td>{{ book.title }}</td>
-                    <td>Author</td>
-                    <!-- <td>{{ book.author }}</td> -->
-                    <td>{{ book.langue.name }}</td>
+                    <td>{{ book.author?.name }}</td>
+                    <td>{{ book.langue?.name }}</td>
                     <td class="">
                         <router-link
                             :to="{ name: 'add', params: { bookId: book.isbn } }"
@@ -79,5 +78,9 @@ thead > tr > td {
 }
 tr > td:first-child {
     padding-left: 1rem;
+}
+
+.card {
+    max-width: 100%;
 }
 </style>
