@@ -29,8 +29,8 @@ export async function createBook(book: Book): Promise<Book> {
 
 export async function editBook(bookId: string, book: BookForm): Promise<Book> {
     const updatedBook = await (
-        await fetch(`${API_URL}/updateproduct/${bookId}`, {
-            method: 'PATCH',
+        await fetch(`${API_URL}/update/${bookId}`, {
+            method: 'PUT',
             body: JSON.stringify(book),
             headers: {
                 'Content-type': 'application/json',
@@ -41,7 +41,7 @@ export async function editBook(bookId: string, book: BookForm): Promise<Book> {
 }
 
 export async function deleteBook(bookId: string): Promise<string> {
-    await fetch(`${API_URL}/deleteproduct/${bookId}`, {
+    await fetch(`${API_URL}/delete/${bookId}`, {
         method: 'DELETE',
     });
     return bookId;

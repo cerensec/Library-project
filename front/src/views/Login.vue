@@ -8,9 +8,19 @@ const userStore = useUser();
 const username = ref('');
 const password = ref('');
 
-function login() {
-    userStore.login(username.value, password.value);
-    router.push('/search');
+userStore.user = null;
+
+async function login() {
+    try {
+        await userStore.login(username.value, password.value);
+    } catch (error) {
+        console.log(error);
+    }
+    if (userStore.user) {
+        router.push('/search');
+    } else {
+        alert('Invalid credentials');
+    }
 }
 </script>
 

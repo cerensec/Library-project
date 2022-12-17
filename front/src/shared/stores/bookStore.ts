@@ -16,6 +16,7 @@ interface BookState {
     search: string;
     isLoading: boolean;
     needRefresh: boolean;
+    loaded: boolean;
 }
 
 export const useBooks = defineStore('books', {
@@ -24,6 +25,7 @@ export const useBooks = defineStore('books', {
         search: '',
         isLoading: true,
         needRefresh: false,
+        loaded: false,
     }),
     getters: {
         filteredBooks(state): Book[] {
@@ -50,6 +52,7 @@ export const useBooks = defineStore('books', {
                 (book) => book.isbn === bookId
             );
             if (bookIndex !== -1) {
+                console.log('remove book');
                 await deleteBook(bookId);
                 this.books.splice(bookIndex, 1);
             }
@@ -84,3 +87,10 @@ export const useBooks = defineStore('books', {
         },
     },
 });
+
+export function initialFetchBooks() {
+    const booksStore = useBooks();
+    if (!booksStore.loaded) {
+        booksStore.fetchBooks();
+    }
+}

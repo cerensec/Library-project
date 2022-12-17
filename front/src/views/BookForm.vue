@@ -55,7 +55,7 @@ const submitForm = async () => {
         overview: overview.value,
         publisher: publisher.value,
         publicationDate: publicationDate.value,
-        barcode: book ? book.barcode : '123456789',
+        barcode: book ? book.barcode : '4732',
         tag: book ? book.tag : 'sc',
         title: title.value,
         author: dataStore.getAuthor(author.value),
@@ -70,6 +70,7 @@ const submitForm = async () => {
     };
     book ? bookStore.editBook(book.isbn, newBook) : bookStore.addBook(newBook);
     book ? alert('Book edited') : alert('Book added');
+    router.push('/manage');
     // router.push('/manage');
 };
 </script>
