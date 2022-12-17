@@ -68,8 +68,8 @@ CREATE TABLE IF NOT EXISTS author_books(
     id int NOT NULL primary key AUTO_INCREMENT,
     author_name varchar(150) NOT NULL,
     books_isbn varchar(10) NOT NULL,
-    foreign key(author_name) references author(name),
-    foreign key(books_isbn) references book_item(isbn)
+    foreign key(author_name) references author(name) ON DELETE CASCADE,
+    foreign key(books_isbn) references book_item(isbn) ON DELTE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS history(
@@ -116,22 +116,22 @@ CREATE TABLE IF NOT EXISTS catalog(
     id int NOT NULL primary key AUTO_INCREMENT,
     book_item_id varchar(10) NOT NULL,
     library_id int NOT NULL,
-    foreign key(book_item_id) references book_item(isbn),
-    foreign key(library_id) references library(id)
+    foreign key(book_item_id) references book_item(isbn) ON DELETE CASCADE,
+    foreign key(library_id) references library(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS account_borrowed(
     id int NOT NULL primary key AUTO_INCREMENT,
     account_number int NOT NULL,
     borrowed_isbn varchar(10) NOT NULL,
-    foreign key(account_number) references account(number),
-    foreign key(borrowed_isbn) references book_item(isbn)
+    foreign key(account_number) references account(number) ON DELETE CASCADE,
+    foreign key(borrowed_isbn) references book_item(isbn) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS account_reserved(
     id int NOT NULL primary key AUTO_INCREMENT,
     account_number int NOT NULL,
     reserved_isbn varchar(10) NOT NULL,
-    foreign key(account_number) references account(number),
-    foreign key(reserved_isbn) references book_item(isbn)
+    foreign key(account_number) references account(number) ON DELETE CASCADE,
+    foreign key(reserved_isbn) references book_item(isbn) ON DELETE CASCADE
 )
