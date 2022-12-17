@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS author_books(
     author_name varchar(150) NOT NULL,
     books_isbn varchar(10) NOT NULL,
     foreign key(author_name) references author(name) ON DELETE CASCADE,
-    foreign key(books_isbn) references book_item(isbn) ON DELTE CASCADE
+    foreign key(books_isbn) references book_item(isbn) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS history(
@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS catalog(
     book_item_id varchar(10) NOT NULL,
     library_id int NOT NULL,
     foreign key(book_item_id) references book_item(isbn) ON DELETE CASCADE,
-    foreign key(library_id) references library(id) ON DELETE CASCADE
+    foreign key(library_id) references library(id)
 );
 
 CREATE TABLE IF NOT EXISTS account_borrowed(

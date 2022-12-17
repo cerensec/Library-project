@@ -2,12 +2,14 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useBooks } from '../shared/stores/bookStore';
+import { useUser } from '../shared/stores';
 
 const currentRoute = computed(() => {
     return useRoute().name;
 });
 
 const bookStore = useBooks();
+const userStore = useUser();
 </script>
 
 <template>
@@ -16,12 +18,15 @@ const bookStore = useBooks();
             <div class="flex grow">
                 <a href="#" class="flex items-center py-4 px-2">
                     <span class="font-bold text-slate-800 text-3xl">
-                        Library
+                        <a href="/search">Library</a>
                     </span>
                 </a>
             </div>
             <div v-if="currentRoute !== 'login'" class="flex">
-                <div v-if="true" class="hidden md:flex items-center space-x-1">
+                <div
+                    v-if="userStore.isAdmin"
+                    class="hidden md:flex items-center space-x-1"
+                >
                     <router-link class="mr-3 text-xl" to="/search">
                         Search
                     </router-link>
