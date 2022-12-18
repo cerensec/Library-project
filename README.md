@@ -11,9 +11,9 @@ insert.sql
 drop.sql
 ```
 
-Nous avons utilisé xampp pour la bdd mais ça suffit d'exécuter les deux premiers scripts poura voir la BDD.
+Nous avons utilisé xampp pour la bdd mais il suffit d'exécuter les deux premiers scripts faire fonctionner la BDD.
 Configuration Spring:
-Dans le fichier applications.propreties onn trouve trois variables différentes a modifier pour accèder a lla BDD:
+Dans le fichier applications.propreties on trouve trois variables différentes a modifier pour accèder a la BDD:
 
 ```
 spring.datasource.url= Lien vers votre BDD
