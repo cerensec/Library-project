@@ -7,7 +7,6 @@ const route = useRoute();
 const bookId = route.params.id as string;
 
 const book = bookStore.getBook(bookId);
-console.log('front book', book);
 </script>
 
 <template>
