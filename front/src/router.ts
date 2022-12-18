@@ -33,7 +33,6 @@ export const router = createRouter({
         },
         {
             path: '/detail/:id',
-            beforeEnter: [verifyRights],
             component: () => import('./views/BookDetail.vue'),
         },
         {

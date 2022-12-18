@@ -16,11 +16,11 @@ const userStore = useUser();
     <nav class="bg-white shadow-lg mb-10">
         <div class="flex w-full">
             <div class="flex grow">
-                <a href="#" class="flex items-center py-4 px-2">
-                    <span class="font-bold text-slate-800 text-3xl">
-                        <a href="/search">Library</a>
-                    </span>
-                </a>
+                <router-link to="/search" class="flex items-center py-4 px-2">
+                    <span class="font-bold text-slate-800 text-3xl"
+                        >Library</span
+                    >
+                </router-link>
             </div>
             <div v-if="currentRoute !== 'login'" class="flex">
                 <div
