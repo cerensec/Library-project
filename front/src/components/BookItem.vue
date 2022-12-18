@@ -16,7 +16,7 @@ defineProps<{
             />
             <h1 class="text-2xl">{{ book.title }}</h1>
             <p>{{ book.overview }}</p>
-            <!-- <small>{{book.author}}</small> -->
+            <small>{{ book.author.name }}</small>
         </div>
     </router-link>
 </template>

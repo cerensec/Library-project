@@ -71,7 +71,6 @@ const submitForm = async () => {
     book ? bookStore.editBook(book.isbn, newBook) : bookStore.addBook(newBook);
     book ? alert('Book edited') : alert('Book added');
     router.push('/manage');
-    // router.push('/manage');
 };
 </script>
 
@@ -209,6 +208,7 @@ const submitForm = async () => {
                 </div>
                 <button
                     class="text-xl py-2 text-white rounded-lg bg-blue-600 hover:bg-blue-700"
+                    @click="submitForm"
                 >
                     Valider
                 </button>

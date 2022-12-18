@@ -46,6 +46,7 @@ export const router = createRouter({
 function verifyAuth() {
     const userStore = useUser();
     if (!userStore.connected) {
+        console.log('not connected');
         router.push('/login');
     }
 }
@@ -53,6 +54,7 @@ function verifyAuth() {
 function verifyRights() {
     const userStore = useUser();
     if (!userStore.isAdmin) {
+        console.log('not admin');
         router.push('/search');
     }
 }
